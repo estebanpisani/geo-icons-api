@@ -15,4 +15,11 @@ public class ContinentEntity {
     private Long id;
     private String name;
     private String image;
+
+    public ContinentEntity() {
+    }
+    public ContinentEntity(String name, String image) {
+        this.name = name;
+        this.image = image;
+    }
 }

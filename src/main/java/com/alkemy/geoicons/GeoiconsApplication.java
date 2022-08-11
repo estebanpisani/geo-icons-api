@@ -9,5 +9,4 @@ public class GeoiconsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GeoiconsApplication.class, args);
 	}
-
 }

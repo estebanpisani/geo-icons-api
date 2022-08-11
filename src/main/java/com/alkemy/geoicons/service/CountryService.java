@@ -18,8 +18,11 @@ public class CountryService {
     @Autowired
     private CountryRepository countryRepository;
 
+    public CountryService() {
+    }
+
     // CREATE
-    public CountryDTO save(CountryDTO dto) {
+    public CountryDTO saveCountry(CountryDTO dto) {
         CountryEntity entity = mapper.countryDTOToEntity(dto);
         CountryEntity newCountry = countryRepository.save(entity);
         return mapper.countryEntityToDTO(newCountry);
@@ -53,7 +56,7 @@ public class CountryService {
     }
 
     //UPDATE
-    public CountryDTO update(CountryDTO dto, Long id) throws Exception {
+    public CountryDTO updateCountry(CountryDTO dto, Long id) throws Exception {
         try {
             Optional<CountryEntity> result = countryRepository.findById(id);
 

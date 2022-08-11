@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("cities")
+@RestController()
+@RequestMapping("/cities")
 public class CountryController {
     @Autowired
     private CountryService countryService;
 
     @PostMapping
-    public ResponseEntity<CountryDTO> save(@RequestBody CountryDTO dto){
-        CountryDTO newCountry = countryService.save(dto);
+    public ResponseEntity<CountryDTO> saveCountry(@RequestBody CountryDTO dto){
+        CountryDTO newCountry = countryService.saveCountry(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newCountry);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CountryDTO> update(@RequestBody CountryDTO dto, @PathVariable Long id) throws Exception {
-        CountryDTO dtoUpdated = countryService.update(dto, id);
+    public ResponseEntity<CountryDTO> updateCountry(@RequestBody CountryDTO dto, @PathVariable Long id) throws Exception {
+        CountryDTO dtoUpdated = countryService.updateCountry(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoUpdated);
     }
     @GetMapping()

@@ -18,8 +18,11 @@ public class ContinentService {
     @Autowired
     private ContinentRepository continentRepository;
 
+    public ContinentService() {
+    }
+
     // CREATE
-    public ContinentDTO save(ContinentDTO dto) {
+    public ContinentDTO saveContinent(ContinentDTO dto) {
         ContinentEntity entity = mapper.continentDTOToEntity(dto);
         ContinentEntity newContinent = continentRepository.save(entity);
         return mapper.continentEntityToDTO(newContinent);
@@ -53,7 +56,7 @@ public class ContinentService {
     }
 
     //UPDATE
-    public ContinentDTO update(ContinentDTO dto, Long id) throws Exception {
+    public ContinentDTO updateContinent(ContinentDTO dto, Long id) throws Exception {
         try {
             Optional<ContinentEntity> result = continentRepository.findById(id);
 

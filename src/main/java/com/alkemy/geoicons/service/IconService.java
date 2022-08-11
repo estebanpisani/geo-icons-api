@@ -18,8 +18,11 @@ public class IconService {
     @Autowired
     private IconRepository iconRepository;
 
+    public IconService() {
+    }
+
     // CREATE
-    public IconDTO save(IconDTO dto) {
+    public IconDTO saveIcon(IconDTO dto) {
         IconEntity entity = mapper.iconDTOToEntity(dto);
         IconEntity newIcon = iconRepository.save(entity);
         return mapper.iconEntityToDTO(newIcon);
@@ -53,7 +56,7 @@ public class IconService {
     }
 
     //UPDATE
-    public IconDTO update(IconDTO dto, Long id) throws Exception {
+    public IconDTO updateIcon(IconDTO dto, Long id) throws Exception {
         try {
             Optional<IconEntity> result = iconRepository.findById(id);
 

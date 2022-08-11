@@ -14,8 +14,6 @@ import java.util.List;
 @Component
 public class IconMapper {
 
-    @Autowired
-    CountryMapper countryMapper;
     public IconEntity iconDTOToEntity(IconDTO dto) {
         IconEntity iconEntity = new IconEntity();
         iconEntity.setName(dto.getName());

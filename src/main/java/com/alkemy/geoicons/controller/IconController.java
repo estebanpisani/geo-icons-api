@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("icons")
+@RestController()
+@RequestMapping("/icons")
 public class IconController {
     @Autowired
     private IconService iconService;
 
     @PostMapping
-    public ResponseEntity<IconDTO> save(@RequestBody IconDTO dto){
-        IconDTO newIcon = iconService.save(dto);
+    public ResponseEntity<IconDTO> saveIcon(@RequestBody IconDTO dto){
+        IconDTO newIcon = iconService.saveIcon(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newIcon);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<IconDTO> update(@RequestBody IconDTO dto, @PathVariable Long id) throws Exception {
-        IconDTO dtoUpdated = iconService.update(dto, id);
+    public ResponseEntity<IconDTO> updateIcon(@RequestBody IconDTO dto, @PathVariable Long id) throws Exception {
+        IconDTO dtoUpdated = iconService.updateIcon(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoUpdated);
     }
     @GetMapping()

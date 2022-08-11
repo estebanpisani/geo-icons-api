@@ -17,12 +17,11 @@ public class IconEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String title;
+    private String name;
     private String image;
     private Double height;
     private String story;
     @Column(name = "creation_date")
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate creationDate;
 
     @ManyToMany(mappedBy = "icons", cascade = CascadeType.ALL)

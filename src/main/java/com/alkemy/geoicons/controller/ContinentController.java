@@ -15,16 +15,32 @@ public class ContinentController {
     @Autowired
     private ContinentService continentService;
 
-    @GetMapping()
-    public ResponseEntity<List<ContinentDTO>> getAllContinents(){
-        List<ContinentDTO> dtos = continentService.getAllContinents();
-        return ResponseEntity.status(HttpStatus.OK).body(dtos);
-    }
-
     @PostMapping
     public ResponseEntity<ContinentDTO> save(@RequestBody ContinentDTO dto){
         ContinentDTO newContinent = continentService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newContinent);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ContinentDTO> update(@RequestBody ContinentDTO dto, @PathVariable Long id) throws Exception {
+        ContinentDTO dtoUpdated = continentService.update(dto, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoUpdated);
+    }
+    @GetMapping()
+    public ResponseEntity<List<ContinentDTO>> getAllContinents() throws Exception {
+        List<ContinentDTO> dtos = continentService.getAllContinents();
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ContinentDTO> getContinentById(@PathVariable Long id) throws Exception {
+        return ResponseEntity.ok().body(continentService.getContinentById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContinentById(@PathVariable Long id){
+        continentService.deleteContinentById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }

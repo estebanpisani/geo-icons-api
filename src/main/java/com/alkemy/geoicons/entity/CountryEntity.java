@@ -40,4 +40,17 @@ public class CountryEntity {
     )
     private Set<IconEntity> icons = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "CountryEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", population=" + population +
+                ", area=" + area +
+                ", continent=" + continent +
+                ", continentId=" + continentId +
+                ", icons=" + icons +
+                '}';
+    }
 }

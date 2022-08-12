@@ -25,7 +25,8 @@ public class CountryService {
     public CountryDTO saveCountry(CountryDTO dto) {
         CountryEntity entity = mapper.countryDTOToEntity(dto);
         CountryEntity newCountry = countryRepository.save(entity);
-        return mapper.countryEntityToDTO(newCountry);
+        CountryDTO newDTO = mapper.countryEntityToDTO(newCountry);
+        return newDTO;
     }
 
     // READ

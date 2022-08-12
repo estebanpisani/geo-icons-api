@@ -17,6 +17,7 @@ public class CountryDTO {
     private String image;
     private Long population;
     private Long area;
-    private List<ContinentDTO> continents;
+    private Long continentId;
+    private ContinentDTO continent;
     private List<IconDTO> icons;
 }

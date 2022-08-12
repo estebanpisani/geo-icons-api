@@ -3,6 +3,7 @@ package com.alkemy.geoicons.mapper;
 import com.alkemy.geoicons.dto.CountryBasicDTO;
 import com.alkemy.geoicons.dto.CountryDTO;
 import com.alkemy.geoicons.entity.CountryEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,10 +11,19 @@ import java.util.List;
 
 @Component
 public class CountryMapper {
+
+    @Autowired
+    ContinentMapper continentMapper;
     public CountryEntity countryDTOToEntity(CountryDTO dto) {
         CountryEntity countryEntity = new CountryEntity();
         countryEntity.setName(dto.getName());
         countryEntity.setImage((dto.getImage()));
+        countryEntity.setArea(dto.getArea());
+        countryEntity.setPopulation(dto.getPopulation());
+        countryEntity.setContinentId(dto.getContinentId());
+//        if (dto.getContinent() != null) {
+//            countryEntity.setContinent(continentMapper.continentDTOToEntity(dto.getContinent()));
+//        }
         return countryEntity;
     }
     public CountryDTO countryEntityToDTO(CountryEntity country) {
@@ -21,6 +31,14 @@ public class CountryMapper {
         dto.setId(country.getId());
         dto.setName(country.getName());
         dto.setImage(country.getImage());
+        dto.setArea(country.getArea());
+        dto.setPopulation(country.getPopulation());
+        dto.setContinentId(country.getContinentId());
+        if (country.getContinent() != null) {
+            dto.setContinent(continentMapper.continentEntityToDTO(country.getContinent()));
+        }
+//        TODO setIcons
+//        dto.setIcons(country.getIcons());
         return dto;
     }
 
@@ -29,6 +47,7 @@ public class CountryMapper {
         basicDTO.setId(country.getId());
         basicDTO.setName(country.getName());
         basicDTO.setImage(country.getImage());
+        basicDTO.setPopulation(country.getPopulation());
         return basicDTO;
     }
 

@@ -1,8 +1,12 @@
 package com.alkemy.geoicons.mapper;
 
+import com.alkemy.geoicons.dto.CountryBasicDTO;
+import com.alkemy.geoicons.dto.CountryDTO;
 import com.alkemy.geoicons.dto.IconBasicDTO;
 import com.alkemy.geoicons.dto.IconDTO;
+import com.alkemy.geoicons.entity.CountryEntity;
 import com.alkemy.geoicons.entity.IconEntity;
+import com.alkemy.geoicons.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +14,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class IconMapper {
+
+    @Autowired
+    CountryMapper countryMapper;
+    @Autowired
+    CountryRepository countryRepository;
 
     public IconEntity iconDTOToEntity(IconDTO dto) {
         IconEntity iconEntity = new IconEntity();
@@ -26,7 +36,15 @@ public class IconMapper {
             iconEntity.setCreationDate(date);
         }
         //TODO icon setCountries
-        // iconEntity.setCountries(countryMapper.countryDTOListToEntityList(dto.getCountries()));
+        if(dto.getCountries() != null){
+            for (CountryBasicDTO countryDTO : dto.getCountries()){
+                Optional<CountryEntity> result = countryRepository.findById(countryDTO.getId());
+                if (result.isPresent()) {
+                    CountryEntity country = result.get();
+                    iconEntity.getCountries().add(country);
+                }
+            }
+        }
         return iconEntity;
     }
     public IconDTO iconEntityToDTO(IconEntity icon) {
@@ -38,7 +56,7 @@ public class IconMapper {
         dto.setStory(icon.getStory());
         dto.setHeight(icon.getHeight());
         //TODO iconDTO setCountries
-        // dto.setCountries(icon.getCountries());
+         dto.setCountries(countryMapper.countryEntityListToBasicDTOList(icon.getCountries()));
         return dto;
     }
 

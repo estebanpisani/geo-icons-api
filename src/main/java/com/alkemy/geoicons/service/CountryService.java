@@ -60,13 +60,26 @@ public class CountryService {
     public CountryDTO updateCountry(CountryDTO dto, Long id) throws Exception {
         try {
             Optional<CountryEntity> result = countryRepository.findById(id);
-
+            System.out.println(result);
             if (result.isPresent()) {
                 CountryEntity country = result.get();
+                if (dto.getName() != null){
                 country.setName(dto.getName());
-                country.setImage(dto.getImage());
-                countryRepository.save(country);
-                CountryDTO dtoUpdated = mapper.countryEntityToDTO(country);
+                }
+                if (dto.getImage() != null) {
+                    country.setImage(dto.getImage());
+                }
+                if (dto.getArea() != null) {
+                    country.setArea(dto.getArea());
+                }
+                if (dto.getPopulation() != null) {
+                    country.setPopulation(dto.getPopulation());
+                }
+                if (dto.getContinentId() != null) {
+                    country.setContinentId(dto.getContinentId());
+                }
+                CountryEntity countryUpdated = countryRepository.save(country);
+                CountryDTO dtoUpdated = mapper.countryEntityToDTO(countryUpdated);
                 return dtoUpdated;
             } else {
                 throw new Exception("Country not found.");

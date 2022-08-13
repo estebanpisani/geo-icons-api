@@ -14,5 +14,5 @@ public class IconDTO {
     private Double height;
     private String story;
     private String creationDate;
-    private List<CountryDTO> countries;
+    private List<CountryBasicDTO> countries;
 }

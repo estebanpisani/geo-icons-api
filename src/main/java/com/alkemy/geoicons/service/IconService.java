@@ -8,6 +8,8 @@ import com.alkemy.geoicons.repository.IconRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,7 @@ public class IconService {
     public IconDTO saveIcon(IconDTO dto) {
         IconEntity entity = mapper.iconDTOToEntity(dto);
         IconEntity newIcon = iconRepository.save(entity);
+        System.out.println(newIcon.getCountries());
         return mapper.iconEntityToDTO(newIcon);
     }
 
@@ -39,15 +42,14 @@ public class IconService {
         }
     }
     public IconDTO getIconById(Long id) throws Exception {
+
         try {
             Optional<IconEntity> result = iconRepository.findById(id);
-
             if (result.isPresent()) {
                 IconEntity icon = result.get();
                 IconDTO dto = mapper.iconEntityToDTO(icon);
                 return dto;
             } else {
-
                 throw new Exception("Icon not found.");
             }
         } catch (Exception e) {
@@ -57,6 +59,7 @@ public class IconService {
 
     //UPDATE
     public IconDTO updateIcon(IconDTO dto, Long id) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             Optional<IconEntity> result = iconRepository.findById(id);
 
@@ -64,6 +67,12 @@ public class IconService {
                 IconEntity icon = result.get();
                 icon.setName(dto.getName());
                 icon.setImage(dto.getImage());
+                icon.setHeight(dto.getHeight());
+                icon.setStory(dto.getStory());
+                if(dto.getCreationDate()!=null && !dto.getCreationDate().isEmpty()) {
+                    LocalDate date = LocalDate.parse(dto.getCreationDate(), formatter );
+                    icon.setCreationDate(date);
+                }
                 iconRepository.save(icon);
                 IconDTO dtoUpdated = mapper.iconEntityToDTO(icon);
                 return dtoUpdated;

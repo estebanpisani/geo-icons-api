@@ -24,9 +24,7 @@ public class IconEntity {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    @ManyToMany(mappedBy = "icons", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "icons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<CountryEntity> countries = new ArrayList<>();
-
-
 
 }

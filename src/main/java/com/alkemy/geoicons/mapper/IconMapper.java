@@ -35,13 +35,14 @@ public class IconMapper {
             LocalDate date = LocalDate.parse(dto.getCreationDate(), formatter );
             iconEntity.setCreationDate(date);
         }
-        //TODO icon setCountries
         if(dto.getCountries() != null){
             for (CountryBasicDTO countryDTO : dto.getCountries()){
                 Optional<CountryEntity> result = countryRepository.findById(countryDTO.getId());
                 if (result.isPresent()) {
                     CountryEntity country = result.get();
                     iconEntity.getCountries().add(country);
+                    country.getIcons().add(iconEntity);
+                    countryRepository.save(country);
                 }
             }
         }
@@ -83,9 +84,9 @@ public class IconMapper {
         return dtos;
     }
 
-    public List<IconBasicDTO> iconEntityListToBasicDTOList(List<IconEntity> countries) {
+    public List<IconBasicDTO> iconEntityListToBasicDTOList(List<IconEntity> icons) {
         List<IconBasicDTO> basicDTOs = new ArrayList<>();
-        for (IconEntity icon : countries){
+        for (IconEntity icon : icons){
             basicDTOs.add(iconEntityToBasicDTO(icon));
         }
         return basicDTOs;

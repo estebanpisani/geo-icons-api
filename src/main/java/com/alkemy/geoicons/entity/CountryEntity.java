@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,7 +40,7 @@ public class CountryEntity {
             joinColumns = @JoinColumn(name = "country_id"),
             inverseJoinColumns = @JoinColumn(name = "icon_id")
     )
-    private Set<IconEntity> icons = new HashSet<>();
+    private List<IconEntity> icons = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -4,6 +4,7 @@ import com.alkemy.geoicons.dto.CountryBasicDTO;
 import com.alkemy.geoicons.dto.CountryDTO;
 import com.alkemy.geoicons.entity.CountryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ public class CountryMapper {
 
     @Autowired
     ContinentMapper continentMapper;
+    @Lazy
+    @Autowired
+    IconMapper iconMapper;
     public CountryEntity countryDTOToEntity(CountryDTO dto) {
         CountryEntity countryEntity = new CountryEntity();
         countryEntity.setName(dto.getName());
@@ -37,8 +41,7 @@ public class CountryMapper {
         if (country.getContinent() != null) {
             dto.setContinent(continentMapper.continentEntityToDTO(country.getContinent()));
         }
-//        TODO setIcons
-//        dto.setIcons(country.getIcons());
+        dto.setIcons(iconMapper.iconEntityListToBasicDTOList(country.getIcons()));
         return dto;
     }
 

@@ -1,9 +1,13 @@
 package com.alkemy.geoicons.service;
 
+import com.alkemy.geoicons.dto.CountryBasicDTO;
 import com.alkemy.geoicons.dto.IconBasicDTO;
 import com.alkemy.geoicons.dto.IconDTO;
+import com.alkemy.geoicons.entity.CountryEntity;
 import com.alkemy.geoicons.entity.IconEntity;
+import com.alkemy.geoicons.mapper.CountryMapper;
 import com.alkemy.geoicons.mapper.IconMapper;
+import com.alkemy.geoicons.repository.CountryRepository;
 import com.alkemy.geoicons.repository.IconRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +22,11 @@ public class IconService {
     @Autowired
     private IconMapper mapper;
     @Autowired
+    private CountryMapper countryMapper;
+    @Autowired
     private IconRepository iconRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
     public IconService() {
     }
@@ -26,9 +34,7 @@ public class IconService {
     // CREATE
     public IconDTO saveIcon(IconDTO dto) {
         IconEntity entity = mapper.iconDTOToEntity(dto);
-        IconEntity newIcon = iconRepository.save(entity);
-        System.out.println(newIcon.getCountries());
-        return mapper.iconEntityToDTO(newIcon);
+        return mapper.iconEntityToDTO(entity);
     }
 
     // READ
@@ -73,6 +79,7 @@ public class IconService {
                     LocalDate date = LocalDate.parse(dto.getCreationDate(), formatter );
                     icon.setCreationDate(date);
                 }
+                // TODO update setCountries
                 iconRepository.save(icon);
                 IconDTO dtoUpdated = mapper.iconEntityToDTO(icon);
                 return dtoUpdated;

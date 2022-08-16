@@ -19,5 +19,5 @@ public class CountryDTO {
     private Long area;
     private Long continentId;
     private ContinentDTO continent;
-    private List<IconDTO> icons;
+    private List<IconBasicDTO> icons;
 }

@@ -3,12 +3,14 @@ package com.alkemy.geoicons.service;
 import com.alkemy.geoicons.dto.CountryBasicDTO;
 import com.alkemy.geoicons.dto.IconBasicDTO;
 import com.alkemy.geoicons.dto.IconDTO;
+import com.alkemy.geoicons.dto.IconFilterDTO;
 import com.alkemy.geoicons.entity.CountryEntity;
 import com.alkemy.geoicons.entity.IconEntity;
 import com.alkemy.geoicons.mapper.CountryMapper;
 import com.alkemy.geoicons.mapper.IconMapper;
 import com.alkemy.geoicons.repository.CountryRepository;
 import com.alkemy.geoicons.repository.IconRepository;
+import com.alkemy.geoicons.repository.specifications.IconSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,12 @@ public class IconService {
     @Autowired
     private IconMapper mapper;
     @Autowired
-    private CountryMapper countryMapper;
-    @Autowired
     private IconRepository iconRepository;
+    @Autowired
+    private IconSpecification iconSpecification;
+
+    @Autowired
+    private CountryMapper countryMapper;
     @Autowired
     private CountryRepository countryRepository;
 
@@ -61,6 +66,24 @@ public class IconService {
         } catch (Exception e) {
             throw new Exception("Icon not found.");
         }
+    }
+
+    public List<IconDTO> getByFilters(String name, String creationDate, List<Long> countries, String order){
+        IconFilterDTO iconFilterDTO = new IconFilterDTO();
+        if(!name.isEmpty() && name != null) {
+            iconFilterDTO.setName(name);
+        }
+        if(creationDate != null && !creationDate.isEmpty()){
+            iconFilterDTO.setCreationDate(creationDate);
+        }
+        if(countries != null && !countries.isEmpty() &&  countries.size()>=1) {
+            iconFilterDTO.setCountries(countries);
+        }
+        iconFilterDTO.setOrder(order);
+
+        List<IconEntity> icons = iconRepository.findAll(iconSpecification.getByFilters(iconFilterDTO));
+        List<IconDTO> iconDTOs = mapper.iconEntityListToDTOList(icons);
+        return iconDTOs;
     }
 
     //UPDATE

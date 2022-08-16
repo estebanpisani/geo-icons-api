@@ -27,7 +27,7 @@ public class IconController {
         IconDTO dtoUpdated = iconService.updateIcon(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtoUpdated);
     }
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<List<IconBasicDTO>> getAllIcons() throws Exception {
         List<IconBasicDTO> dtos = iconService.getAllIcons();
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
@@ -35,6 +35,17 @@ public class IconController {
     @GetMapping("/{id}")
     public ResponseEntity<IconDTO> getIconById(@PathVariable Long id) throws Exception {
         return ResponseEntity.ok().body(iconService.getIconById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<IconDTO>> getByFilters(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String creationDate,
+            @RequestParam(required = false) List<Long> countries,
+            @RequestParam(required = false, defaultValue = "asc") String order
+            ){
+        List<IconDTO> icons = iconService.getByFilters(name, creationDate, countries, order);
+        return ResponseEntity.ok(icons);
     }
 
     @DeleteMapping("/{id}")

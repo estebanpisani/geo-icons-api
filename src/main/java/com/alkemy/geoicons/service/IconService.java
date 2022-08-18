@@ -70,7 +70,7 @@ public class IconService {
 
     public List<IconDTO> getByFilters(String name, String creationDate, List<Long> countries, String order){
         IconFilterDTO iconFilterDTO = new IconFilterDTO();
-        if(!name.isEmpty() && name != null) {
+        if(name != null && !name.isEmpty()) {
             iconFilterDTO.setName(name);
         }
         if(creationDate != null && !creationDate.isEmpty()){

@@ -1,10 +1,11 @@
 package com.alkemy.geoicons.service;
 
-import com.alkemy.geoicons.dto.CountryBasicDTO;
-import com.alkemy.geoicons.dto.CountryDTO;
+import com.alkemy.geoicons.dto.*;
 import com.alkemy.geoicons.entity.CountryEntity;
+import com.alkemy.geoicons.entity.IconEntity;
 import com.alkemy.geoicons.mapper.CountryMapper;
 import com.alkemy.geoicons.repository.CountryRepository;
+import com.alkemy.geoicons.repository.specifications.CountrySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class CountryService {
     private CountryMapper mapper;
     @Autowired
     private CountryRepository countryRepository;
+
+    @Autowired
+    private CountrySpecification countrySpecification;
 
     public CountryService() {
     }
@@ -55,12 +59,27 @@ public class CountryService {
             throw new Exception("Country not found.");
         }
     }
+    public List<CountryDTO> getByFilters(String name, Long continent, String order){
+        CountryFilterDTO countryFilterDTO = new CountryFilterDTO();
+
+        if(name != null && !name.isEmpty()) {
+            countryFilterDTO.setName(name);
+        }
+
+        if(continent != null) {
+            countryFilterDTO.setContinent(continent);
+        }
+        countryFilterDTO.setOrder(order);
+
+        List<CountryEntity> countries = countryRepository.findAll(countrySpecification.getByFilters(countryFilterDTO));
+        List<CountryDTO> countryDTOs = mapper.countryEntityListToDTOList(countries);
+        return countryDTOs;
+    }
 
     //UPDATE
     public CountryDTO updateCountry(CountryDTO dto, Long id) throws Exception {
         try {
             Optional<CountryEntity> result = countryRepository.findById(id);
-            System.out.println(result);
             if (result.isPresent()) {
                 CountryEntity country = result.get();
                 if (dto.getName() != null){

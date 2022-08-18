@@ -22,11 +22,4 @@ public class IconFilterDTO {
         this.countries = countries;
         this.order = order;
     }
-//
-//    public boolean isAsc() {
-//        return this.order.compareToIgnoreCase("asc") == 0;
-//    }
-//    public boolean isDesc() {
-//        return this.order.compareToIgnoreCase("desc") == 0;
-//    }
 }

@@ -2,6 +2,7 @@ package com.alkemy.geoicons.controller;
 
 import com.alkemy.geoicons.dto.CountryBasicDTO;
 import com.alkemy.geoicons.dto.CountryDTO;
+import com.alkemy.geoicons.dto.IconDTO;
 import com.alkemy.geoicons.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,16 @@ public class CountryController {
     @GetMapping("/{id}")
     public ResponseEntity<CountryDTO> getCountryById(@PathVariable Long id) throws Exception {
         return ResponseEntity.ok().body(countryService.getCountryById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CountryDTO>> getByFilters(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long continent,
+            @RequestParam(required = false, defaultValue = "asc") String order
+    ){
+        List<CountryDTO> countries = countryService.getByFilters(name, continent, order);
+        return ResponseEntity.ok(countries);
     }
 
     @DeleteMapping("/{id}")
